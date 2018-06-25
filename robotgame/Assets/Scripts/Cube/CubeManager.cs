@@ -16,7 +16,7 @@ namespace Cube
         private void Start()
         {
             CubeObject cubeObject = GetComponent<CubeObject>();
-            SetSelf(ref cubeObject);    
+            SetSelf(ref cubeObject);
         }
 
         public CubeObject PlaceCube(CubeObject prefab, Vector3 where, Quaternion rotation)
@@ -30,12 +30,9 @@ namespace Cube
 
         public CubeObject GetCube(Vector3 where)
         {
-            where = transform.InverseTransformPoint(where);
-            for(int index = 0; index < cubeObjects.Count - 1; index++)
-            {
-                if (cubeObjects[index].transform.position == where)
-                    return cubeObjects[index];
-            }
+            foreach (CubeObject obj in cubeObjects)
+                if (obj.transform.localPosition == where)
+                    return obj;
             return null;
         }
 
@@ -43,7 +40,38 @@ namespace Cube
         {
             CubeObject cube = GetCube(where);
             if (cube != null)
+            {
+                cubeObjects.Remove(cube);
                 Destroy(cube.gameObject);
+            }
+        }
+
+        public void Connect()
+        {
+            CubeObject current;
+            Queue<CubeObject> cubeObjects = new Queue<CubeObject>();
+            cubeObjects.Enqueue(self);
+
+            while (cubeObjects.Count != 0)
+            {
+                current = cubeObjects.Dequeue();
+                current.Connect();
+
+                foreach(CubeObject other in current.ConnectedCubes)
+                {
+                    if(!other.IsConnected())
+                    {
+                        other.Connect();
+                        cubeObjects.Enqueue(other);
+                    }
+                }
+            }
+        }
+
+
+        public CubeManager[] GetChildren()
+        {
+            return GetComponentsInChildren<CubeManager>();
         }
     }
 }

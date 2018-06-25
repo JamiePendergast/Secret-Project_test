@@ -59,19 +59,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Build Mode\BuildMode.cs" />
+    <Compile Include="Assets\Scripts\Control\CameraMouseControl.cs" />
+    <Compile Include="Assets\Scripts\Control\CameraWasdMotion.cs" />
+    <Compile Include="Assets\Scripts\Control\ControlSchemeContainer.cs" />
+    <Compile Include="Assets\Scripts\Control\CursorLockController.cs" />
+    <Compile Include="Assets\Scripts\Control\DefaultControlScheme.cs" />
+    <Compile Include="Assets\Scripts\Control\IControlScheme.cs" />
     <Compile Include="Assets\Scripts\Cube\CubeManager.cs" />
     <Compile Include="Assets\Scripts\Cube\CubeObject.cs" />
+    <Compile Include="Assets\Scripts\Utilities\RaycastComponent.cs" />
     <Reference Include="UnityEditor.StandardEvents">
-      <HintPath>F:/DONTDELETE/robotgame/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+      <HintPath>F:/DONTDELETE/Secret-Project/robotgame/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>F:/DONTDELETE/robotgame/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>F:/DONTDELETE/Secret-Project/robotgame/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>F:/DONTDELETE/robotgame/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>F:/DONTDELETE/Secret-Project/robotgame/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>F:/DONTDELETE/robotgame/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>F:/DONTDELETE/Secret-Project/robotgame/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>G:/Unity Hub/Unity Versions/2018.2.0b6/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

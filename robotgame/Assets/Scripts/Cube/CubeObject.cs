@@ -5,9 +5,25 @@ namespace Cube
 {
     public sealed class CubeObject : MonoBehaviour
     {
-        private List<CubeObject> connectedCubes = new List<CubeObject>();
+        public List<CubeObject> ConnectedCubes = new List<CubeObject>();
         public List<Vector3> ConnectionPoints = new List<Vector3>();
         public List<Vector3> AttachmentPoints = new List<Vector3>();
+        private bool isConnected;
+
+        public bool IsConnected()
+        {
+            return isConnected;
+        }
+
+        public void Connect()
+        {
+            isConnected = true;
+        }
+
+        public void Disconnect()
+        {
+            isConnected = false;
+        }
 
         public MeshRenderer[] GetRenderers()
         {
@@ -33,6 +49,18 @@ namespace Cube
             }
 
             return materials;
+        }
+
+        public CubeManager GetCubeManager()
+        {
+            Transform current = transform;
+            while(current)
+            {
+                if (current.GetComponent<CubeManager>())
+                    return current.GetComponent<CubeManager>();
+                current = current.parent;
+            }
+            return null;
         }
     }
 }
