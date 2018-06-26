@@ -8,7 +8,10 @@ namespace Build_Mode
         public ControlSchemeContainer ControlScheme;
         public RaycastComponent Raycaster;
         public CubeObject SelectedCube;
+        public int RotationPhase = 0;
+        private Transform rotationSlave;
 
+        
         [Header("Debug Values")]
         [SerializeField]
         private bool debugMode;
@@ -17,6 +20,14 @@ namespace Build_Mode
         [Range(0.0f,1.0f)]
         public float Margin = 0.5001f;
 
+        public GameObject PlacementCursor;
+
+        public void Rotation(float amount)
+        {
+            RotationPhase += Mathf.FloorToInt(amount);
+            rotationSlave.Rotate(0.0f, 90.0f * RotationPhase, 0.0f);
+            Debug.Log(rotationSlave.eulerAngles);
+        }
 
         public float GetMostDistance(Vector3 start, Vector3 end)
         {
@@ -62,6 +73,9 @@ namespace Build_Mode
         private void Start()
         {
             CursorLockController.MouseLocked = true;
+            rotationSlave = new GameObject("Rotation Slave").transform;
+            PlacementCursor = Instantiate(SelectedCube.gameObject);
+            Destroy(PlacementCursor.GetComponent<Collider>());
         }
 
         private void Update()
@@ -69,35 +83,55 @@ namespace Build_Mode
             if(debugMode)
             {
                 debugHitpoint.gameObject.SetActive(Raycaster.Test());
-            }    
+            }
+
+            PlacementCursor.gameObject.SetActive(Raycaster.Test());
         }
 
         private void LateUpdate()
         {
-            if(Raycaster.Test())
+            
+            if (Raycaster.Test())
             {
                 //Get cube
                 var cube = Raycaster.GetTransform().GetComponent<CubeObject>();
 
                 if(cube != null)
-                {
-                   
+                {  
                     var cubeManager = cube.GetCubeManager();
                     if(cubeManager != null)
                     {
+                        rotationSlave.up = Raycaster.GetNormal();
+                        PlacementCursor.transform.up = rotationSlave.up;
+                        
                         //check inputs
                         var scheme = ControlScheme.Get();
 
-                        if(scheme.PlaceCube() && CanPlace(ref cube))
+                        if (CanPlace(ref cube))
                         {
                             Vector3 placementPos = GetPlacementPosition(ref cube);
-                            cubeManager.PlaceCube(SelectedCube, placementPos, Quaternion.identity);
+                            PlacementCursor.transform.position = placementPos;
+                            if ((Input.GetAxis("Mouse ScrollWheel") != 0))
+                            {
+                                Rotation((int)Mathf.Sign(Input.GetAxis("Mouse ScrollWheel")));
+                                PlacementCursor.transform.rotation = rotationSlave.rotation;
+
+                            }
+
+                            
+
+                            if (scheme.PlaceCube())
+                            {
+                                cubeManager.PlaceCube(SelectedCube, placementPos, rotationSlave.rotation);
+                            }
                         }
 
-                        else if(scheme.DestroyCube() && CanDestroy(ref cube))
+                        if (scheme.DestroyCube() && CanDestroy(ref cube))
                         {
                             cubeManager.DestroyCube(Raycaster.GetTransform().localPosition);
                         }
+
+                        
                     }
                 }
 
