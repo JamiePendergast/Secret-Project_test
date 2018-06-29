@@ -5,6 +5,7 @@ namespace Build_Mode
 {
     public class BuildMode : MonoBehaviour
     {
+        public CubeInventoryManager CubeInventory;
         public ControlSchemeContainer ControlScheme;
         public RaycastComponent Raycaster;
         public CubeObject SelectedCube;
@@ -20,6 +21,8 @@ namespace Build_Mode
         [Range(0.0f,1.0f)]
         public float Margin = 0.5001f;
 
+
+        public Material PlacementCursorMaterial;
         public GameObject PlacementCursor;
 
         public void Rotation(float amount)
@@ -76,11 +79,16 @@ namespace Build_Mode
             rotationSlave = new GameObject("Rotation Slave").transform;
             PlacementCursor = Instantiate(SelectedCube.gameObject);
             Destroy(PlacementCursor.GetComponent<Collider>());
+
+            PlacementCursor.GetComponent<CubeObject>().SetRenderers();
+            PlacementCursor.GetComponent<CubeObject>().SetMaterialsTo(PlacementCursorMaterial);
+
+
         }
 
         private void Update()
-        {
-            if(debugMode)
+        {   
+            if (debugMode)
             {
                 debugHitpoint.gameObject.SetActive(Raycaster.Test());
             }

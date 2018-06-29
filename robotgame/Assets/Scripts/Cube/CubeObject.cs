@@ -10,6 +10,8 @@ namespace Cube
         public List<Vector3> AttachmentPoints = new List<Vector3>();
         private bool isConnected;
 
+        private MeshRenderer[] renderers;
+
         public bool IsConnected()
         {
             return isConnected;
@@ -27,12 +29,12 @@ namespace Cube
 
         public MeshRenderer[] GetRenderers()
         {
-            return GetComponentsInChildren<MeshRenderer>(true);
+            return GetComponents<MeshRenderer>();
         }
 
         public MeshFilter[] GetMeshFilters()
         {
-            return GetComponentsInChildren<MeshFilter>(true);
+            return GetComponents<MeshFilter>();
         }
 
         public List<Material> GetMaterials()
@@ -40,7 +42,7 @@ namespace Cube
             List<Material> materials = new List<Material>();
             var renderers = GetRenderers();
 
-            for (int rendererIndex = 0; rendererIndex < renderers.Length - 1; rendererIndex++)
+            for (int rendererIndex = 0; rendererIndex < renderers.Length; rendererIndex++)
             {   
                 for(int materialIndex = 0; materialIndex < renderers[rendererIndex].materials.Length; materialIndex++)
                 {
@@ -61,6 +63,20 @@ namespace Cube
                 current = current.parent;
             }
             return null;
+        }
+
+        public void SetMaterialsTo(Material material)
+        {
+            for (int r = 0; r < renderers.Length; r++)
+            {
+                for(int m = 0; m < renderers[r].materials.Length; m++)
+                    renderers[r].materials[m].CopyPropertiesFromMaterial(material);
+            }
+        }
+
+        public void SetRenderers()
+        {
+            renderers = GetComponents<MeshRenderer>();
         }
     }
 }

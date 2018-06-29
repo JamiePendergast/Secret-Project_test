@@ -144,7 +144,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 282840814}
   - component: {fileID: 282840813}
   - component: {fileID: 282840811}
+  - component: {fileID: 282840819}
   - component: {fileID: 282840815}
   - component: {fileID: 282840812}
   - component: {fileID: 282840817}
@@ -314,13 +315,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e83eb39b04f57a449a5c0101b70514e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CubeInventory: {fileID: 282840819}
   ControlScheme: {fileID: 282840818}
   Raycaster: {fileID: 282840816}
   SelectedCube: {fileID: 114088810786499350, guid: 332a27f56c1732e4e892a3d2c482deee,
     type: 2}
+  RotationPhase: 0
   debugMode: 1
   debugHitpoint: {fileID: 482307264}
   Margin: 0.5001
+  PlacementCursorMaterial: {fileID: 2100000, guid: 88ee62a9a0313af4d9c0a80575361187,
+    type: 2}
+  PlacementCursor: {fileID: 0}
 --- !u!114 &282840818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,6 +336,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fb0471f11c8d944aa270eeb2947c31c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &282840819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 282840810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fe915368d8dba94795820ef550dd026, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &482307261
@@ -364,7 +381,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 15303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 3f26b5fecbcfa2a48aa5bfc9052fb0cd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -399,7 +416,7 @@ Transform:
   m_GameObject: {fileID: 482307261}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -3.89}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
+  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -522,7 +539,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 681182348}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6569376, y: -0.581419, z: -0.18648148}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

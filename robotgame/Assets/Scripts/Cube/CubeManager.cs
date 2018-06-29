@@ -19,12 +19,35 @@ namespace Cube
             SetSelf(ref cubeObject);
         }
 
-        public CubeObject PlaceCube(CubeObject prefab, Vector3 where, Quaternion rotation)
+        public CubeObject PlaceCube(CubeObject prefab, Vector3 position, Quaternion rotation)
         {
-            CubeObject cubeObject = Instantiate<CubeObject>(prefab, where, rotation, transform) as CubeObject;
-            for (int connectionPoint = 0; connectionPoint < prefab.ConnectionPoints.Count - 1; connectionPoint++)
+            CubeObject cubeObject = Instantiate<CubeObject>(prefab, position, rotation, transform) as CubeObject;
+            cubeObject.SetRenderers();
+            for (int connectionPoint = 0; connectionPoint < prefab.ConnectionPoints.Count; connectionPoint++)
                 cubeObject.AttachmentPoints.Add(cubeObject.transform.TransformPoint(prefab.ConnectionPoints[connectionPoint]));
             cubeObjects.Add(cubeObject);
+
+            for (int i = 0; i < cubeObject.AttachmentPoints.Count; i++)
+            {
+                Vector3 where = cubeObject.AttachmentPoints[i];
+                CubeObject part2 = GetCube(transform.InverseTransformPoint(where));
+                if ((Object)part2 != (Object)null)
+                {
+                    for (int j = 0; j < part2.AttachmentPoints.Count; j++)
+                    {
+                        Vector3 where2 = part2.AttachmentPoints[j];
+                        CubeObject part3 = GetCube(transform.InverseTransformPoint(where2));
+                        if ((Object)part3 != (Object)null && (Object)cubeObject == (Object)part3 && !cubeObject.ConnectedCubes.Contains(part2))
+                        {
+                            cubeObject.ConnectedCubes.Add(part2);
+                        }
+                    }
+                }
+            }
+            foreach(CubeObject cube in cubeObject.ConnectedCubes)
+            {
+                cube.ConnectedCubes.Add(cubeObject);
+            }
             return cubeObject;
         }   
 
@@ -42,6 +65,10 @@ namespace Cube
             if (cube != null)
             {
                 cubeObjects.Remove(cube);
+
+                foreach (CubeObject connection in cube.ConnectedCubes)
+                    connection.ConnectedCubes.Remove(connection);
+
                 Destroy(cube.gameObject);
             }
         }
@@ -61,7 +88,6 @@ namespace Cube
                 {
                     if(!other.IsConnected())
                     {
-                        other.Connect();
                         cubeObjects.Enqueue(other);
                     }
                 }
